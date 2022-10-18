@@ -62,3 +62,27 @@ export async function getUsers() {
   };
   return user;
 }
+
+export async function verifyEmail() {
+  const url =
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAYgqSYR1Ydu_Vv2OHuBMFhaAfTFQK3gic";
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        requestType: "VERIFY_EMAIL",
+        idToken: localStorage.getItem("user@mail.com"),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data.error.message
+    }
+  } catch (error) {
+    alert(error)
+    return
+  }
+}

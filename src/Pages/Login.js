@@ -1,8 +1,10 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Form, redirect } from "react-router-dom";
 import { login } from "../API/api";
+import Context from "../Context/Context";
 
 function Login() {
+  const ctx = useContext(Context)
   return (
     <Fragment>
       <Form method="post" action="/login">

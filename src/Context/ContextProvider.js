@@ -3,8 +3,8 @@ import Context from "./Context";
 
 function ContextProvider(props) {
   const [user, setUser] = useState({});
-  function addUserHandler(user) {
-    setUser({ ...user });
+  function addUserHandler(userData) {
+    setUser({ ...user,...userData });
   }
   const data = {
     user: user,
