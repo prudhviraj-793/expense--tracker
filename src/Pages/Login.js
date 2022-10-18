@@ -1,10 +1,10 @@
 import { Fragment, useContext } from "react";
-import { Form, redirect } from "react-router-dom";
+import { Form, NavLink, redirect } from "react-router-dom";
 import { login } from "../API/api";
 import Context from "../Context/Context";
 
 function Login() {
-  const ctx = useContext(Context)
+  const ctx = useContext(Context);
   return (
     <Fragment>
       <Form method="post" action="/login">
@@ -23,7 +23,7 @@ function Login() {
         <div>
           <button>Login</button>
         </div>
-        <p>Forgot Password</p>
+        <NavLink to="/forgetPassword">Forgot Password</NavLink>
       </Form>
       <div>
         <p>Don't have an account? Sign Up</p>
@@ -43,12 +43,7 @@ export async function loginAction({ request }) {
     password: enteredPassword,
     returnSecureToken: true,
   };
-  try {
-    let res = await login(user);
-    localStorage.setItem(enteredEmail, res.idToken)
-  } catch (error) {
-    alert(error)
-    return
-  }
+  let res = await login(user);
+  localStorage.setItem(enteredEmail, res.idToken);
   return redirect("/welcome");
 }

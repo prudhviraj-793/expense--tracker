@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ErrorFound from "./Pages/ErrorFound";
+import ForgetPassword, { forgetPasswordAction } from "./Pages/ForgetPassword";
 import Login, { loginAction } from "./Pages/Login";
 import Profile, { profileAction } from "./Pages/Profile";
 import Root from "./Pages/Root";
@@ -19,6 +20,11 @@ const router = createBrowserRouter(
       <Route path="/welcome" element={<Welcome />}>
         <Route path="profile" element={<Profile />} action={profileAction} />
       </Route>
+      <Route
+        path="/forgetPassword"
+        element={<ForgetPassword />}
+        action={forgetPasswordAction}
+      />
     </Route>
   )
 );

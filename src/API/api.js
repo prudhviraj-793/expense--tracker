@@ -15,18 +15,23 @@ export async function signup(user) {
 export async function login(user) {
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAYgqSYR1Ydu_Vv2OHuBMFhaAfTFQK3gic";
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(user),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    throw new Error("check email/password");
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data.error.message;
+    }
+    return data;
+  } catch (error) {
+    alert(error);
+    return;
   }
-  const data = await response.json();
-  return data;
 }
 
 export async function updateProfile(details) {
@@ -49,7 +54,7 @@ export async function getUsers() {
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      idToken: localStorage.getItem("user@mail.com"),
+      idToken: localStorage.getItem("mahikamamu@gmail.com"),
     }),
     headers: {
       "Content-Type": "application/json",
@@ -71,7 +76,7 @@ export async function verifyEmail() {
       method: "POST",
       body: JSON.stringify({
         requestType: "VERIFY_EMAIL",
-        idToken: localStorage.getItem("user@mail.com"),
+        idToken: localStorage.getItem("mahikamamu@gmail.com"),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -79,10 +84,32 @@ export async function verifyEmail() {
     });
     const data = await response.json();
     if (!response.ok) {
-      throw data.error.message
+      throw data.error.message;
     }
   } catch (error) {
-    alert(error)
-    return
+    alert(error);
+    return;
+  }
+}
+
+export async function resetPassword(details) {
+  const url =
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAYgqSYR1Ydu_Vv2OHuBMFhaAfTFQK3gic";
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(details),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data.error.message;
+    }
+    console.log(data)
+  } catch (error) {
+    alert(error);
+    return;
   }
 }
