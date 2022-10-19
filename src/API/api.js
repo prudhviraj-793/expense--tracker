@@ -107,7 +107,52 @@ export async function resetPassword(details) {
     if (!response.ok) {
       throw data.error.message;
     }
-    console.log(data)
+    console.log(data);
+  } catch (error) {
+    alert(error);
+    return;
+  }
+}
+
+export async function addExpeses(exp) {
+  const url =
+    "https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses.json";
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(exp),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw data.error.message;
+    }
+  } catch (error) {
+    alert(error);
+    return;
+  }
+}
+
+export async function getExpeses() {
+  const url =
+    "https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses.json";
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (!response.ok) {
+      throw data.error.message;
+    }
+    const allExpenses = [];
+    for (const key in data) {
+      const expenseData = {
+        id: key,
+        ...data[key],
+      };
+      allExpenses.push(expenseData)
+    }
+    return allExpenses
   } catch (error) {
     alert(error);
     return;
