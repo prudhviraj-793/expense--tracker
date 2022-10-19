@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import { Form } from "react-router-dom"
+import { Form, redirect } from "react-router-dom"
 import { resetPassword } from "../API/api"
 
 function ForgetPassword() {
@@ -23,4 +23,5 @@ export async function forgetPasswordAction({request}) {
         email: formData.get('email')
     }
     await resetPassword(details)
+    return redirect('/login')
 }

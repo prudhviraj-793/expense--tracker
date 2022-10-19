@@ -54,7 +54,7 @@ export async function getUsers() {
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      idToken: localStorage.getItem("mahikamamu@gmail.com"),
+      idToken: localStorage.getItem("user@mail.com"),
     }),
     headers: {
       "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export async function verifyEmail() {
       method: "POST",
       body: JSON.stringify({
         requestType: "VERIFY_EMAIL",
-        idToken: localStorage.getItem("mahikamamu@gmail.com"),
+        idToken: localStorage.getItem("user@mail.com"),
       }),
       headers: {
         "Content-Type": "application/json",

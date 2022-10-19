@@ -1,11 +1,8 @@
-import { useContext } from "react";
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 import { getUsers, updateProfile } from "../API/api";
-import Context from "../Context/Context";
 
 function Profile() {
-  const ctx = useContext(Context)
-  getUsers().then(data => ctx.addUser(data))
+  const loaderData = useLoaderData()
   return (
     <Form method="post" action="/welcome/profile">
       <div>
@@ -14,9 +11,9 @@ function Profile() {
       </div>
       <div>
         <label>First Name :</label>
-        <input type="text" defaultValue={ctx.user.displayName}  name="name" />
+        <input type="text" defaultValue={loaderData.displayName}  name="name" />
         <label>Profile Photo URL :</label>
-        <input type="text" defaultValue={ctx.user.photoUrl}  name="pic-url" />
+        <input type="text" defaultValue={loaderData.photoUrl}  name="pic-url" />
       </div>
       <div>
         <button>update</button>
@@ -36,4 +33,8 @@ export async function profileAction({ request }) {
     photoUrl: formData.get("pic-url"),
   };
   await updateProfile(details);
+}
+
+export function profileLoader() {
+  return getUsers()
 }

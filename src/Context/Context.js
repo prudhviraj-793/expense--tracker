@@ -1,7 +1,9 @@
 import { createContext } from "react";
 
 const Context = createContext({
-    user: {},
+    users: [],
+    expenses: [],
+    addExpense: () => {},
     addUser: () => {}
 })
 
