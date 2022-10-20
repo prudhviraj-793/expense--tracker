@@ -5,14 +5,33 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router-dom";
-import { addExpeses, getExpeses, verifyEmail } from "../API/api";
+import {
+  addExpeses,
+  deleteExpeses,
+  getExpeses,
+  verifyEmail,
+} from "../API/api";
 
 function Welcome() {
   const navigate = useNavigate();
   const loaderData = useLoaderData();
-  const allExpenses = loaderData.map(exp => {
-    return <li key={exp.id} >{exp.description} - {exp.amount} - {exp.category} </li>
-  })
+  const allExpenses = loaderData.map((exp) => {
+    return (
+      <li key={exp.id}>
+        {exp.description} - {exp.amount} - {exp.category}{" "}
+        <button
+          onClick={() => {
+            deleteExpeses(exp.id);
+          }}
+        >
+          Delete
+        </button>{" "}
+        <button onClick={() => {
+          navigate(`/editForm/${exp.id}`)
+        }}>Edit</button>
+      </li>
+    );
+  });
   async function verifyEmailHandler(e) {
     e.preventDefault();
     await verifyEmail();
@@ -71,6 +90,7 @@ export async function AddxpensesAction({ request }) {
     category: formData.get("category"),
   };
   await addExpeses(expense);
+  return;
 }
 
 export function addExpensesLoader() {

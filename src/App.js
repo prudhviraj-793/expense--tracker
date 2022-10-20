@@ -4,6 +4,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import EditForm, { editFormAction } from "./Pages/EditForm";
 import ErrorFound from "./Pages/ErrorFound";
 import ForgetPassword, { forgetPasswordAction } from "./Pages/ForgetPassword";
 import Login, { loginAction } from "./Pages/Login";
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="/welcome" element={<Welcome />} action={AddxpensesAction} loader={addExpensesLoader} >
         <Route path="profile" element={<Profile />} action={profileAction} loader={profileLoader} />
       </Route>
+      <Route path="/editForm/:id" element={<EditForm />} action={editFormAction} />
       <Route
         path="/forgetPassword"
         element={<ForgetPassword />}
