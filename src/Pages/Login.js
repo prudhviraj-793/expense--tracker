@@ -1,8 +1,12 @@
 import { Fragment } from "react";
+import { useDispatch } from "react-redux";
 import { Form, NavLink, redirect } from "react-router-dom";
 import { login } from "../API/api";
+import { authActions } from "../store/authSlice";
 
+let dispatch
 function Login() {
+  dispatch = useDispatch()
   return (
     <Fragment>
       <Form method="post" action="/login">
@@ -41,7 +45,10 @@ export async function loginAction({ request }) {
     password: enteredPassword,
     returnSecureToken: true,
   };
+  dispatch(authActions.login())
   let res = await login(user);
-  localStorage.setItem(enteredEmail, res.idToken);
+  localStorage.setItem(enteredEmail, res.idToken)
+  dispatch(authActions.token(res.idToken))
+  dispatch(authActions.userId(enteredEmail))
   return redirect("/welcome");
 }

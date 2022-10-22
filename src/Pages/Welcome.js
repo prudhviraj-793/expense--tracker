@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from "react-redux";
 import {
   Form,
   NavLink,
@@ -11,10 +12,19 @@ import {
   getExpeses,
   verifyEmail,
 } from "../API/api";
+import { authActions } from "../store/authSlice";
 
 function Welcome() {
+  const isAut = useSelector(state => state.auth.isAuthenticated)
+  const token = useSelector(state => state.auth.token)
+  const loaderData = useLoaderData()
+  let amount = 0
+  for(let exp of loaderData) {
+    amount += Number(exp.amount)
+  }
+  const isPremium = amount > 10000
+  const dispatch = useDispatch()
   const navigate = useNavigate();
-  const loaderData = useLoaderData();
   const allExpenses = loaderData.map((exp) => {
     return (
       <li key={exp.id}>
@@ -34,18 +44,20 @@ function Welcome() {
   });
   async function verifyEmailHandler(e) {
     e.preventDefault();
-    await verifyEmail();
+    await verifyEmail(token);
   }
 
   function logoutHandler(e) {
     e.preventDefault();
-    localStorage.removeItem("user@mail.com");
+    dispatch(authActions.logout())
+    dispatch(authActions.token(''))
+    localStorage.clear()
     navigate("/login");
   }
 
   return (
     <div>
-      {Object.keys(localStorage).length > 0 && (
+      {isAut && (
         <div>
           <p>Welcome to Expense Tracker</p>
           <button onClick={verifyEmailHandler}>Verify Email</button>
@@ -56,9 +68,10 @@ function Welcome() {
               <NavLink to="profile">Complete now</NavLink>
             </p>
           </div>
+          {isPremium && <button>Premium</button>}
           <Form method="post" action="/welcome">
-            <input type="number" placeholder="Enter Amount" name="amount" />
-            <input type="text" placeholder="Description" name="description" />
+            <input type="number" placeholder="Enter Amount" name="amount" required />
+            <input type="text" placeholder="Description" name="description" required />
             <select name="category">
               <option value="food">Food</option>
               <option value="travel">travel</option>
@@ -73,6 +86,7 @@ function Welcome() {
           )}
         </div>
       )}
+      {!isAut && <h3>please login</h3>}
       <div>
         <Outlet />
       </div>
@@ -90,9 +104,9 @@ export async function AddxpensesAction({ request }) {
     category: formData.get("category"),
   };
   await addExpeses(expense);
-  return;
 }
 
-export function addExpensesLoader() {
-  return getExpeses();
+export function expensesLoader() {
+  return getExpeses()
 }
+

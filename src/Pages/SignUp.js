@@ -5,7 +5,7 @@ import { signup } from "../API/api";
 function SignUp() {
   return (
     <Fragment>
-      <Form method="post" action="/signup">
+      <Form method="post">
         <div>
           <h3>SignUp</h3>
         </div>

@@ -48,13 +48,13 @@ export async function updateProfile(details) {
   console.log(data);
 }
 
-export async function getUsers() {
+export async function getUsers(token) {
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAYgqSYR1Ydu_Vv2OHuBMFhaAfTFQK3gic";
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      idToken: localStorage.getItem("user@mail.com"),
+      idToken: token,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export async function getUsers() {
   return user;
 }
 
-export async function verifyEmail() {
+export async function verifyEmail(token) {
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAYgqSYR1Ydu_Vv2OHuBMFhaAfTFQK3gic";
   try {
@@ -76,7 +76,7 @@ export async function verifyEmail() {
       method: "POST",
       body: JSON.stringify({
         requestType: "VERIFY_EMAIL",
-        idToken: localStorage.getItem("user@mail.com"),
+        idToken: token,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -150,9 +150,9 @@ export async function getExpeses() {
         id: key,
         ...data[key],
       };
-      allExpenses.push(expenseData)
+      allExpenses.push(expenseData);
     }
-    return allExpenses
+    return allExpenses;
   } catch (error) {
     alert(error);
     return;
@@ -160,8 +160,7 @@ export async function getExpeses() {
 }
 
 export async function deleteExpeses(id) {
-  const url =
-    `https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses/${id}.json`;
+  const url = `https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses/${id}.json`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
@@ -180,8 +179,7 @@ export async function deleteExpeses(id) {
 }
 
 export async function editExpeses(id, updatedExpense) {
-  const url =
-    `https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses/${id}.json`;
+  const url = `https://expense-tracker-54771-default-rtdb.firebaseio.com/expenses/${id}.json`;
   try {
     const response = await fetch(url, {
       method: "PUT",
